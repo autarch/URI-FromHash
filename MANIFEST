@@ -1,8 +1,9 @@
 Build.PL
 Changes
-MANIFEST
-META.yml # Will be created by "make dist"
-README
 lib/URI/FromHash.pm
+MANIFEST
+META.yml			# Will be created by "make dist"
+README
 t/pod-coverage.t
 t/pod.t
+t/uri.t
