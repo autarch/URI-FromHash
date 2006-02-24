@@ -7,7 +7,7 @@ use base 'Exporter';
 
 use vars qw( $VERSION @EXPORT_OK );
 
-$VERSION = '0.01';
+$VERSION = '0.02';
 @EXPORT_OK = qw( uri uri_object );
 
 use Params::Validate qw( validate SCALAR HASHREF );
