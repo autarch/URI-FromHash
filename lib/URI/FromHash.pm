@@ -52,13 +52,11 @@ sub uri_object
         }
     }
 
-    $uri->host( $p{host} )
-        if grep { defined && length } $p{host};
-    $uri->port( $p{port} )
-        if grep { defined && length } $p{port};
-
-    $uri->path( $p{path} )
-        if grep { defined && length } $p{path};
+    for my $k ( qw( host port path ) )
+    {
+        $uri->$k( $p{$k} )
+            if grep { defined && length } $p{$k};
+    }
 
     while ( my ( $k, $v ) = each %{ $p{query} } )
     {
