@@ -124,9 +124,11 @@ URI::FromHash - The fantastic new URI::FromHash!
 
 Perhaps a little code snippet.
 
-  use URI::FromHash;
+  use URI::FromHash qw( uri );
 
-  my $foo = URI::FromHash->new;
+  my $uri = uri( path  => '/some/path',
+                 query => { foo => 1, bar => 2 },
+               );
 
 =head1 DESCRIPTION
 
