@@ -122,8 +122,6 @@ URI::FromHash - Build a URI from a set of named parameters all at once
 
 =head1 SYNOPSIS
 
-Perhaps a little code snippet.
-
   use URI::FromHash qw( uri );
 
   my $uri = uri( path  => '/some/path',
