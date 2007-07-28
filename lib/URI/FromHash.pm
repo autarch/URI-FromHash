@@ -130,7 +130,7 @@ URI::FromHash - Build a URI from a set of named parameters all at once
 
 =head1 DESCRIPTION
 
-This module provides a simple functional "named parameters" style
+This module provides a simple one-subroutine "named parameters" style
 interface for creating URIs. Underneath the hood it uses C<URI.pm>,
 though because of the simplified interface it may not support all
 possible options for all types of URIs.
