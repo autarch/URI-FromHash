@@ -118,7 +118,7 @@ __END__
 
 =head1 NAME
 
-URI::FromHash - The fantastic new URI::FromHash!
+URI::FromHash - Build a URI from a set of named parameters all at once
 
 =head1 SYNOPSIS
 
