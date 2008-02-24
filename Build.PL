@@ -7,8 +7,10 @@ my $builder =
     Module::Build->new
         ( module_name        => 'URI::FromHash',
           license            => 'perl',
-          requires           => { 'Test::More' => 0,
-                                  'URI'        => 1.22,
+          requires           => { 'Params::Validate' => 0,
+                                  'URI'              => 1.22,
+                                },
+          build_requires     => { 'Test::More'       => 0,
                                 },
           create_makefile_pl => 'passthrough',
           create_readme      => 1,
