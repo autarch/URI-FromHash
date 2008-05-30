@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 21;
+use Test::More tests => 22;
 
 use URI::FromHash qw( uri uri_object );
 
@@ -110,6 +110,12 @@ use URI::FromHash qw( uri uri_object );
 
 {
     eval { uri( port => 70, username => 'test' ) };
+    like( $@, qr/required parameters/,
+          'got an error when none of the required params were given' );
+}
+
+{
+    eval { uri( path => [], username => 'test' ) };
     like( $@, qr/required parameters/,
           'got an error when none of the required params were given' );
 }
