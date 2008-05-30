@@ -76,7 +76,7 @@ sub uri_object
     }
 
     $uri->fragment( $p{fragment} )
-        if grep { defined && length } $p{fragment} ;
+        if grep { defined && length } $p{fragment};
 
     return $uri;
 }
