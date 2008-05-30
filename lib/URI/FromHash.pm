@@ -108,19 +108,23 @@ sub _check_required
 {
     my $p = shift;
 
-    unless ( ( grep { defined and length }
-               map { $p->{$_} }
-               qw( host path fragment )
-             )
-             ||
-             keys %{ $p->{query} }
-           )
-    {
-        require Carp;
-        local $Carp::CarpLevel = 1;
-        Carp::croak( 'None of the required parameters '
-                     . '(host, path, fragment, or query) were given' );
-    }
+    return if
+        ( grep { defined and length }
+          map { $p->{$_} }
+          qw( host fragment )
+        );
+
+    return if
+        ref $p->{path}
+        ? @{ $p->{path} }
+        : defined $p->{path} && length $p->{path};
+
+    return if keys %{ $p->{query} };
+
+    require Carp;
+    local $Carp::CarpLevel = 1;
+    Carp::croak( 'None of the required parameters '
+                 . '(host, path, fragment, or query) were given' );
 }
 
 
