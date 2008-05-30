@@ -159,11 +159,7 @@ such as Mason or TT2.
 This module provides two functions both of which are I<optionally>
 exportable:
 
-=over 4
-
-=item * uri( ... )
-
-=item * uri_object( ... )
+=head2 uri( ... ) and uri_object( ... )
 
 Both of these functions accept the same set of parameters, except for
 one additional parameter allowed when calling C<uri()>.
@@ -175,19 +171,19 @@ given parameters.
 
 These parameters are:
 
-=over 8
+=over 4
 
-=item o scheme
+=item * scheme
 
 The URI's scheme. This is optional, and if none is given you will
 create a schemeless URI. This is useful if you want to create a URI to
 a path on the same server (as is commonly done in C<< <a> >> tags).
 
-=item o host
+=item * host
 
-=item o port
+=item * port
 
-=item o path
+=item * path
 
 The path can be either a string or an array reference.
 
@@ -201,22 +197,22 @@ string (C<''>).
 You can add a trailing slash by making the last element of the array
 reference an empty string.
 
-=item o username
+=item * username
 
-=item o password
+=item * password
 
-=item o fragment
+=item * fragment
 
 All of these are optional strings which can be used to specify that
 part of the URI.
 
-=item o query
+=item * query
 
 This should be a hash reference of query parameters. The values for
 each key may be a scalar or array reference. Use an array reference to
 provide multiple values for one key.
 
-=item o query_separator
+=item * query_separator
 
 This option is can I<only> be provided when calling C<uri()>. By
 default, it is a semi-colon (;).
