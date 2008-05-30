@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16;
+use Test::More tests => 21;
 
 use URI::FromHash qw( uri uri_object );
 
@@ -112,4 +112,43 @@ use URI::FromHash qw( uri uri_object );
     eval { uri( port => 70, username => 'test' ) };
     like( $@, qr/required parameters/,
           'got an error when none of the required params were given' );
+}
+
+{
+    my $uri = uri( scheme => 'http',
+                   host   => 'example.com',
+                   path   => [ qw( a b c ) ],
+                 );
+    is( $uri, 'http://example.com/a/b/c',
+        'uri is http://example.com/a/b/c' );
+}
+
+{
+    my $uri = uri( scheme => 'http',
+                   host   => 'example.com',
+                   path   => [ qw( a b c ), '' ],
+                 );
+    is( $uri, 'http://example.com/a/b/c/',
+        'uri is http://example.com/a/b/c/' );
+}
+
+{
+    my $uri = uri( path   => [ qw( a b c ) ],
+                 );
+    is( $uri, 'a/b/c',
+        'uri is a/b/c' );
+}
+
+{
+    my $uri = uri( path   => [ '', qw( a b c ), '' ],
+                 );
+    is( $uri, '/a/b/c/',
+        'uri is /a/b/c/' );
+}
+
+{
+    my $uri = uri( path   => [ '', qw( a b c ), undef, 'q', '' ],
+                 );
+    is( $uri, '/a/b/c/q/',
+        'uri is /a/b/c/' );
 }

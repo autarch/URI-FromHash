@@ -7,10 +7,10 @@ use base 'Exporter';
 
 use vars qw( $VERSION @EXPORT_OK );
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 @EXPORT_OK = qw( uri uri_object );
 
-use Params::Validate qw( validate SCALAR HASHREF );
+use Params::Validate qw( validate SCALAR ARRAYREF HASHREF );
 
 use URI;
 use URI::QueryParam;
@@ -22,7 +22,7 @@ my %BaseParams =
       password => { type => SCALAR, default  => '' },
       host     => { type => SCALAR, optional => 1 },
       port     => { type => SCALAR, optional => 1 },
-      path     => { type => SCALAR, optional => 1 },
+      path     => { type => SCALAR | ARRAYREF, optional => 1 },
       query    => { type => HASHREF, default => {} },
       fragment => { type => SCALAR,  optional => 1 },
     );
@@ -52,10 +52,22 @@ sub uri_object
         }
     }
 
-    for my $k ( qw( host port path ) )
+    for my $k ( qw( host port ) )
     {
         $uri->$k( $p{$k} )
             if grep { defined && length } $p{$k};
+    }
+
+    if ( $p{path} )
+    {
+        if ( ref $p{path} )
+        {
+            $uri->path( join '/', grep { defined } @{ $p{path} } );
+        }
+        else
+        {
+            $uri->path( $p{path} );
+        }
     }
 
     while ( my ( $k, $v ) = each %{ $p{query} } )
@@ -118,7 +130,7 @@ __END__
 
 =head1 NAME
 
-URI::FromHash - Build a URI from a set of named parameters all at once
+URI::FromHash - Build a URI from a set of named parameters
 
 =head1 SYNOPSIS
 
@@ -177,6 +189,18 @@ a path on the same server (as is commonly done in C<< <a> >> tags).
 
 =item o path
 
+The path can be either a string or an array reference.
+
+If an array reference is passed each I<defined> member of the array
+will be joined by a single forward slash (/).
+
+If you are building a host-less URI and want to include a leading
+slash then make the first element of the array reference an empty
+string (C<''>).
+
+You can add a trailing slash by making the last element of the array
+reference an empty string.
+
 =item o username
 
 =item o password
@@ -214,7 +238,7 @@ notified of progress on your bug as I make changes.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2006 Dave Rolsky, All Rights Reserved.
+Copyright 2006-2008 Dave Rolsky, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
