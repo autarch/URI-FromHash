@@ -223,8 +223,6 @@ default, it is a semi-colon (;).
 
 =back
 
-=back
-
 =head1 AUTHOR
 
 Dave Rolsky, <autarch@urth.org>
