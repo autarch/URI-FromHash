@@ -5,10 +5,9 @@ use warnings;
 
 use base 'Exporter';
 
-use vars qw( $VERSION @EXPORT_OK );
+use vars qw( @EXPORT_OK );
 
-$VERSION = '0.03';
-@EXPORT_OK = qw( uri uri_object );
+our @EXPORT_OK = qw( uri uri_object );
 
 use Params::Validate qw( validate SCALAR ARRAYREF HASHREF );
 
@@ -130,11 +129,9 @@ sub _check_required
 
 1;
 
+# ABSTRACT: Build a URI from a set of named parameters
+
 __END__
-
-=head1 NAME
-
-URI::FromHash - Build a URI from a set of named parameters
 
 =head1 SYNOPSIS
 
@@ -223,22 +220,11 @@ default, it is a semi-colon (;).
 
 =back
 
-=head1 AUTHOR
-
-Dave Rolsky, <autarch@urth.org>
-
 =head1 BUGS
 
 Please report any bugs or feature requests to
 C<bug-uri-fromhash@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.  I will be notified, and then you'll automatically be
 notified of progress on your bug as I make changes.
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2006-2008 Dave Rolsky, All Rights Reserved.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
 
 =cut
