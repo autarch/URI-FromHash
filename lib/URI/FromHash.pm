@@ -3,16 +3,13 @@ package URI::FromHash;
 use strict;
 use warnings;
 
-use base 'Exporter';
-
-use vars qw( @EXPORT_OK );
-
-our @EXPORT_OK = qw( uri uri_object );
-
 use Params::Validate qw( validate SCALAR ARRAYREF HASHREF );
-
 use URI;
 use URI::QueryParam;
+
+use Exporter qw( import );
+
+our @EXPORT_OK = qw( uri uri_object );
 
 my %BaseParams = (
     scheme   => { type => SCALAR,            optional => 1 },
