@@ -67,27 +67,31 @@ sub uri_object {
     return $uri;
 }
 
-sub uri {
-    my %p = validate(
-        @_,
-        {
-            %BaseParams,
-            query_separator => { type => SCALAR, default => ';' },
-        },
-    );
-    _check_required( \%p );
+{
+    my $spec = {
+        %BaseParams,
+        query_separator => { type => SCALAR, default => ';' },
+    };
 
-    my $sep = delete $p{query_separator};
-    my $uri = uri_object(%p);
+    sub uri {
+        my %p = validate(
+            @_,
+            $spec,
+        );
+        _check_required( \%p );
 
-    if ( $sep ne '&' && $uri->query() ) {
-        my $query = $uri->query();
-        $query =~ s/&/$sep/g;
-        $uri->query($query);
+        my $sep = delete $p{query_separator};
+        my $uri = uri_object(%p);
+
+        if ( $sep ne '&' && $uri->query() ) {
+            my $query = $uri->query();
+            $query =~ s/&/$sep/g;
+            $uri->query($query);
+        }
+
+        # force stringification
+        return $uri->canonical() . '';
     }
-
-    # force stringification
-    return $uri->canonical() . '';
 }
 
 sub _check_required {
