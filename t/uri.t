@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 22;
+use Test::More 0.88;
 
 use URI::FromHash qw( uri uri_object );
 
@@ -217,3 +217,5 @@ use URI::FromHash qw( uri uri_object );
         'uri is /a/b/c/'
     );
 }
+
+done_testing();
