@@ -14,63 +14,53 @@ use Params::Validate qw( validate SCALAR ARRAYREF HASHREF );
 use URI;
 use URI::QueryParam;
 
+my %BaseParams = (
+    scheme   => { type => SCALAR,            optional => 1 },
+    username => { type => SCALAR,            optional => 1 },
+    password => { type => SCALAR,            default  => '' },
+    host     => { type => SCALAR,            optional => 1 },
+    port     => { type => SCALAR,            optional => 1 },
+    path     => { type => SCALAR | ARRAYREF, optional => 1 },
+    query    => { type => HASHREF,           default  => {} },
+    fragment => { type => SCALAR,            optional => 1 },
+);
 
-my %BaseParams =
-    ( scheme   => { type => SCALAR, optional => 1 },
-      username => { type => SCALAR, optional => 1 },
-      password => { type => SCALAR, default  => '' },
-      host     => { type => SCALAR, optional => 1 },
-      port     => { type => SCALAR, optional => 1 },
-      path     => { type => SCALAR | ARRAYREF, optional => 1 },
-      query    => { type => HASHREF, default => {} },
-      fragment => { type => SCALAR,  optional => 1 },
-    );
-
-sub uri_object
-{
+sub uri_object {
     my %p = validate( @_, \%BaseParams );
-    _check_required(\%p);
+    _check_required( \%p );
 
     my $uri = URI->new();
 
     $uri->scheme( $p{scheme} )
         if grep { defined && length } $p{scheme};
 
-    if ( grep { defined && length } $p{username}, $p{password} )
-    {
+    if ( grep { defined && length } $p{username}, $p{password} ) {
         $p{username} ||= '';
         $p{password} ||= '';
-        if ( $uri->can('user') && $uri->can('password') )
-        {
+        if ( $uri->can('user') && $uri->can('password') ) {
             $uri->user( $p{username} );
             $uri->password( $p{password} );
         }
-        else
-        {
-            $uri->userinfo( "$p{username}:$p{password}" );
+        else {
+            $uri->userinfo("$p{username}:$p{password}");
         }
     }
 
-    for my $k ( qw( host port ) )
-    {
+    for my $k (qw( host port )) {
         $uri->$k( $p{$k} )
             if grep { defined && length } $p{$k};
     }
 
-    if ( $p{path} )
-    {
-        if ( ref $p{path} )
-        {
+    if ( $p{path} ) {
+        if ( ref $p{path} ) {
             $uri->path( join '/', grep { defined } @{ $p{path} } );
         }
-        else
-        {
+        else {
             $uri->path( $p{path} );
         }
     }
 
-    while ( my ( $k, $v ) = each %{ $p{query} } )
-    {
+    while ( my ( $k, $v ) = each %{ $p{query} } ) {
         $uri->query_param( $k => $v );
     }
 
@@ -80,20 +70,20 @@ sub uri_object
     return $uri;
 }
 
-sub uri
-{
-    my %p = validate( @_,
-                      { %BaseParams,
-                        query_separator => { type => SCALAR, default => ';' },
-                      },
-                    );
-    _check_required(\%p);
+sub uri {
+    my %p = validate(
+        @_,
+        {
+            %BaseParams,
+            query_separator => { type => SCALAR, default => ';' },
+        },
+    );
+    _check_required( \%p );
 
     my $sep = delete $p{query_separator};
     my $uri = uri_object(%p);
 
-    if ( $sep ne '&' && $uri->query() )
-    {
+    if ( $sep ne '&' && $uri->query() ) {
         my $query = $uri->query();
         $query =~ s/&/$sep/g;
         $uri->query($query);
@@ -103,18 +93,17 @@ sub uri
     return $uri->canonical() . '';
 }
 
-sub _check_required
-{
+sub _check_required {
     my $p = shift;
 
-    return if
-        ( grep { defined and length }
-          map { $p->{$_} }
-          qw( host fragment )
+    return
+        if (
+        grep { defined and length }
+        map { $p->{$_} } qw( host fragment )
         );
 
-    return if
-        ref $p->{path}
+    return
+        if ref $p->{path}
         ? @{ $p->{path} }
         : defined $p->{path} && length $p->{path};
 
@@ -123,9 +112,8 @@ sub _check_required
     require Carp;
     local $Carp::CarpLevel = 1;
     Carp::croak( 'None of the required parameters '
-                 . '(host, path, fragment, or query) were given' );
+            . '(host, path, fragment, or query) were given' );
 }
-
 
 1;
 
@@ -137,9 +125,10 @@ __END__
 
   use URI::FromHash qw( uri );
 
-  my $uri = uri( path  => '/some/path',
-                 query => { foo => 1, bar => 2 },
-               );
+  my $uri = uri(
+      path  => '/some/path',
+      query => { foo => 1, bar => 2 },
+  );
 
 =head1 DESCRIPTION
 
