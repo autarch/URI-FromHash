@@ -3,7 +3,7 @@
 - Pod fixes.
 
 
-0.03    2008-05-30
+0.03     2008-05-30
 
 - Add missing dependency - Params::Validate.
 
@@ -11,11 +11,11 @@
   on a suggestion from Dave Doyle. RT #31352.
 
 
-0.02    2006-02-24
+0.02     2006-02-24
 
 - Forgot to include a dependency on URI.pm. Duh.
 
 
-0.01    2006-02-24
+0.01     2006-02-24
 
 - Initial release
