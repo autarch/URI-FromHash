@@ -45,7 +45,7 @@ use URI::FromHash qw( uri uri_object );
         'uri starts with http://example.com?'
     );
     like(
-        $uri, qr{\?(?:a=1;b=foo)|(?:b=foo;a=1)},
+        $uri, qr{\?(?:a=1;b=foo)},
         'contains expected query elements'
     );
 }
@@ -55,14 +55,14 @@ use URI::FromHash qw( uri uri_object );
         scheme          => 'http',
         host            => 'example.com',
         query           => { a => 1, b => 'foo' },
-        query_separator => '|',
+        query_separator => '&',
     );
     like(
         $uri, qr{^http://example.com\?},
         'uri starts with http://example.com?'
     );
     like(
-        $uri, qr{\?(?:a=1|b=foo)|(?:b=foo|a=1)},
+        $uri, qr{\?a=1&b=foo},
         'contains expected query elements'
     );
 }
@@ -108,7 +108,7 @@ use URI::FromHash qw( uri uri_object );
         query  => { a => [ 1, 2 ] },
     );
     like(
-        $uri, qr{\?(?:a=1;a=2)|(?:a=2;a=1)},
+        $uri, qr{\?a=1;a=2},
         'contains expected query elements'
     );
 }
