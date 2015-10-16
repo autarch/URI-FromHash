@@ -12,14 +12,14 @@ use Exporter qw( import );
 our @EXPORT_OK = qw( uri uri_object );
 
 my %BaseParams = (
-    scheme   => { type => SCALAR,            optional => 1 },
-    username => { type => SCALAR,            optional => 1 },
-    password => { type => SCALAR,            default  => '' },
-    host     => { type => SCALAR,            optional => 1 },
-    port     => { type => SCALAR,            optional => 1 },
-    path     => { type => SCALAR | ARRAYREF, optional => 1 },
-    query    => { type => HASHREF,           default  => {} },
-    fragment => { type => SCALAR,            optional => 1 },
+    scheme   => { type => SCALAR, optional => 1 },
+    username => { type => SCALAR, optional => 1 },
+    password => { type => SCALAR, default  => '' },
+    host     => { type => SCALAR, optional => 1 },
+    port     => { type => SCALAR, optional => 1 },
+    path => { type => SCALAR | ARRAYREF, optional => 1 },
+    query    => { type => HASHREF, default  => {} },
+    fragment => { type => SCALAR,  optional => 1 },
 );
 
 sub uri_object {
@@ -57,8 +57,8 @@ sub uri_object {
         }
     }
 
-    while ( my ( $k, $v ) = each %{ $p{query} } ) {
-        $uri->query_param( $k => $v );
+    for my $param ( sort keys %{ $p{query} } ) {
+        $uri->query_param( $param => $p{query}{$param} );
     }
 
     $uri->fragment( $p{fragment} )
