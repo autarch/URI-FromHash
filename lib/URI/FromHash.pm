@@ -14,14 +14,14 @@ use Exporter qw( import );
 our @EXPORT_OK = qw( uri uri_object );
 
 my %BaseParams = (
-    scheme   => { type => SCALAR,            optional => 1 },
-    username => { type => SCALAR,            optional => 1 },
-    password => { type => SCALAR,            default  => '' },
-    host     => { type => SCALAR,            optional => 1 },
-    port     => { type => SCALAR,            optional => 1 },
-    path     => { type => SCALAR | ARRAYREF, optional => 1 },
-    query    => { type => HASHREF,           default  => {} },
-    fragment => { type => SCALAR,            optional => 1 },
+    scheme   => { type => SCALAR, optional => 1 },
+    username => { type => SCALAR, optional => 1 },
+    password => { type => SCALAR, default  => q{} },
+    host     => { type => SCALAR, optional => 1 },
+    port     => { type => SCALAR, optional => 1 },
+    path => { type => SCALAR | ARRAYREF, optional => 1 },
+    query    => { type => HASHREF, default  => {} },
+    fragment => { type => SCALAR,  optional => 1 },
 );
 
 sub uri_object {
@@ -34,8 +34,8 @@ sub uri_object {
         if grep { defined && length } $p{scheme};
 
     if ( grep { defined && length } $p{username}, $p{password} ) {
-        $p{username} ||= '';
-        $p{password} ||= '';
+        $p{username} ||= q{};
+        $p{password} ||= q{};
         if ( $uri->can('user') && $uri->can('password') ) {
             $uri->user( $p{username} );
             $uri->password( $p{password} );
@@ -52,7 +52,7 @@ sub uri_object {
 
     if ( $p{path} ) {
         if ( ref $p{path} ) {
-            $uri->path( join '/', grep { defined } @{ $p{path} } );
+            $uri->path( join '/', grep {defined} @{ $p{path} } );
         }
         else {
             $uri->path( $p{path} );
@@ -92,7 +92,7 @@ sub uri_object {
         }
 
         # force stringification
-        return $uri->canonical() . '';
+        return $uri->canonical() . q{};
     }
 }
 
@@ -185,7 +185,7 @@ will be joined by a single forward slash (/).
 
 If you are building a host-less URI and want to include a leading
 slash then make the first element of the array reference an empty
-string (C<''>).
+string (C<q{}>).
 
 You can add a trailing slash by making the last element of the array
 reference an empty string.

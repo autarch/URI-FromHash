@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 use Test::More 0.88;
+use Test::Fatal;
 
 use URI::FromHash qw( uri uri_object );
 
@@ -115,7 +116,7 @@ use URI::FromHash qw( uri uri_object );
 
 {
     my $uri = uri(
-        path  => '/my/path',
+        path => '/my/path',
         query => { foo => 'seven' },
     );
     is(
@@ -149,17 +150,17 @@ use URI::FromHash qw( uri uri_object );
 }
 
 {
-    eval { uri( port => 70, username => 'test' ) };
     like(
-        $@, qr/required parameters/,
+        exception { uri( port => 70, username => 'test' ) },
+        qr/required parameters/,
         'got an error when none of the required params were given'
     );
 }
 
 {
-    eval { uri( path => [], username => 'test' ) };
     like(
-        $@, qr/required parameters/,
+        exception { uri( path => [], username => 'test' ) },
+        qr/required parameters/,
         'got an error when none of the required params were given'
     );
 }
@@ -180,7 +181,7 @@ use URI::FromHash qw( uri uri_object );
     my $uri = uri(
         scheme => 'http',
         host   => 'example.com',
-        path   => [ qw( a b c ), '' ],
+        path   => [ qw( a b c ), q{} ],
     );
     is(
         $uri, 'http://example.com/a/b/c/',
@@ -200,7 +201,7 @@ use URI::FromHash qw( uri uri_object );
 
 {
     my $uri = uri(
-        path => [ '', qw( a b c ), '' ],
+        path => [ q{}, qw( a b c ), q{} ],
     );
     is(
         $uri, '/a/b/c/',
@@ -210,7 +211,7 @@ use URI::FromHash qw( uri uri_object );
 
 {
     my $uri = uri(
-        path => [ '', qw( a b c ), undef, 'q', '' ],
+        path => [ q{}, qw( a b c ), undef, 'q', q{} ],
     );
     is(
         $uri, '/a/b/c/q/',
