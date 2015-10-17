@@ -1,14 +1,14 @@
 requires "Carp" => "0";
 requires "Exporter" => "0";
 requires "Params::Validate" => "0";
-requires "URI" => "0";
-requires "URI::QueryParam" => "0";
+requires "URI" => "1.68";
 requires "strict" => "0";
 requires "warnings" => "0";
 
 on 'test' => sub {
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
+  requires "Test::Fatal" => "0";
   requires "Test::More" => "0.96";
 };
 
