@@ -3,6 +3,8 @@ package URI::FromHash;
 use strict;
 use warnings;
 
+our $VERSION = '0.05';
+
 use Params::Validate qw( validate SCALAR ARRAYREF HASHREF );
 use URI;
 use URI::QueryParam;
