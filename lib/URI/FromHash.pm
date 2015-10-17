@@ -6,8 +6,7 @@ use warnings;
 our $VERSION = '0.05';
 
 use Params::Validate qw( validate SCALAR ARRAYREF HASHREF );
-use URI;
-use URI::QueryParam;
+use URI 1.68;
 
 use Exporter qw( import );
 
@@ -59,9 +58,7 @@ sub uri_object {
         }
     }
 
-    while ( my ( $k, $v ) = each %{ $p{query} } ) {
-        $uri->query_param( $k => $v );
-    }
+    $uri->query_form( $p{query} );
 
     $uri->fragment( $p{fragment} )
         if grep { defined && length } $p{fragment};
