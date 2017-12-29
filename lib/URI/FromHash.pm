@@ -137,12 +137,11 @@ interface for creating URIs. Underneath the hood it uses C<URI.pm>,
 though because of the simplified interface it may not support all
 possible options for all types of URIs.
 
-It was created for the common case where you simply want to have a
-simple interface for creating syntactically correct URIs from known
-components (like a path and query string). Doing this using the native
-C<URI.pm> interface is rather tedious, requiring a number of method
-calls, which is particularly ugly when done inside a templating system
-such as Mason or TT2.
+It was created for the common case where you just want a simple interface for
+creating syntactically correct URIs from known components (like a path and
+query string). Doing this using the native C<URI.pm> interface is rather
+tedious, requiring a number of method calls, which is particularly ugly when
+done inside a templating system such as Mason or TT2.
 
 =head1 FUNCTIONS
 
