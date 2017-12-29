@@ -116,7 +116,7 @@ use URI::FromHash qw( uri uri_object );
 
 {
     my $uri = uri(
-        path => '/my/path',
+        path  => '/my/path',
         query => { foo => 'seven' },
     );
     is(
